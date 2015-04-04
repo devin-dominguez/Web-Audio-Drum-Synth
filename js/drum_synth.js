@@ -82,17 +82,21 @@ var settings = {
 		freq: 4000,
 		Q: 20,
 		sineLevel: 0
-
 	},
 	percussion :{
-
+		decay: 20,
+		sustain: 40,
+		release: 50,
+		sustainLevel: .5,
+		freqStart: 2000,
+		freqEnd: 1900
 	}
 };
 
 //----------------------------------------------------
 //NOISE DRUM
 //----------------------------------------------------
-function NoiseDrum() {
+function createNoiseDrum() {
 	var filter = audio.createBiquadFilter();
 	filter.type = "bandpass";
 
@@ -111,8 +115,8 @@ function NoiseDrum() {
 
 	var envFilter = audio.createBiquadFilter();
 	envFilter.type = "lowpass";
-	envFilter.Q = 0;
-	envFilter.frequency = 24;
+	envFilter.Q.value = 0;
+	envFilter.frequency.value = 128;
 
 	sig.connect(env);
 	env.connect(envFilter);
@@ -164,7 +168,7 @@ function NoiseDrum() {
 //----------------------------------------------------
 //SINE DRUM
 //----------------------------------------------------
-function SineDrum() {
+function createSineDrum() {
 	var amp = audio.createGain();
 	amp.gain.value = 0;
 
@@ -178,8 +182,8 @@ function SineDrum() {
 
 	var envFilter = audio.createBiquadFilter();
 	envFilter.type = "lowpass";
-	envFilter.Q = 0;
-	envFilter.frequency = 48;
+	envFilter.Q.value = 0;
+	envFilter.frequency.value = 128;
 
 	sig.connect(env);
 	env.connect(envFilter);
@@ -224,9 +228,14 @@ function SineDrum() {
 //SETUP CHANNELS
 //----------------------------------------------------
 
-var snare = new NoiseDrum();
+var snare =  createNoiseDrum();
 snare.connect(out);
-var kick = new SineDrum();
+
+var kick =  createSineDrum();
 kick.connect(out);
-var highHat = new NoiseDrum();
+
+var highHat =  createNoiseDrum();
 highHat.connect(out);
+
+var percussion = createSineDrum();
+percussion.connect(out);
