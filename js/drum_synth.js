@@ -29,7 +29,6 @@ var noiseSource = createNoiseSource(1);
 noiseSource.start();
 
 //create audio rate dc offset for filtered envelopes
-//essentially a straight up 
 var sigCos = new Float32Array(2);
 sigCos[0] = 0;
 sigCos[1] = 1;
@@ -87,7 +86,7 @@ var settings = {
 		decay: 20,
 		sustain: 40,
 		release: 50,
-		sustainLevel: .5,
+		sustainLevel: .125,
 		freqStart: 2000,
 		freqEnd: 1900
 	}
@@ -101,22 +100,22 @@ function createNoiseDrum() {
 	filter.type = "bandpass";
 
 	var amp = audio.createGain();
-	amp.gain.value = 0;
+	amp.gain.setValueAtTime(0, audio.currentTime);
 
 	var sine = audio.createOscillator();
 	sine.type = "sine";
 	sine.start();
 
 	var sineAmp = audio.createGain();
-	sineAmp.gain.value = 0;
+	sineAmp.gain.setValueAtTime(0, audio.currentTime);
 
 	var env = audio.createGain();
-	env.gain.value = 0;
+	env.gain.setValueAtTime(0, audio.currentTime);
 
 	var envFilter = audio.createBiquadFilter();
 	envFilter.type = "lowpass";
-	envFilter.Q.value = 0;
-	envFilter.frequency.value = 128;
+	envFilter.Q.setValueAtTime(0, audio.currentTime);
+	envFilter.frequency.setValueAtTime(128, audio.currentTime);
 
 	sig.connect(env);
 	env.connect(envFilter);
@@ -170,7 +169,7 @@ function createNoiseDrum() {
 //----------------------------------------------------
 function createSineDrum() {
 	var amp = audio.createGain();
-	amp.gain.value = 0;
+	amp.gain.setValueAtTime(0, audio.currentTime);
 
 	var sine = audio.createOscillator();
 	sine.type = "sine";
@@ -178,12 +177,12 @@ function createSineDrum() {
 	sine.frequency.setValueAtTime(settings.kick.freqStart, audio.currentTime);
 
 	var env = audio.createGain();
-	env.gain.value = 0;
+	env.gain.setValueAtTime(0, audio.currentTime);
 
 	var envFilter = audio.createBiquadFilter();
 	envFilter.type = "lowpass";
-	envFilter.Q.value = 0;
-	envFilter.frequency.value = 128;
+	envFilter.Q.setValueAtTime(0, audio.currentTime);
+	envFilter.frequency.setValueAtTime(128, audio.currentTime);
 
 	sig.connect(env);
 	env.connect(envFilter);
